@@ -57,12 +57,17 @@ todas_las_reservas = reserva_manager.todas_las_reservas
 print("Todas: las resrevas: ", todas_las_reservas)
 
 @app.route("/")
-def hello_world():
+def index():
     return render_template("index.html", todas_las_reservas=todas_las_reservas)
 
 @app.route("/reservas")
 def crear_reservas():
-    pass
+    return render_template("reservas.html",todas_las_reservas=todas_las_reservas )
+
+@app.route("/crear-sala")
+def crear_sala():
+    return render_template("crear-sala.html",todas_las_reservas=todas_las_reservas )
+
 
 
 if __name__ == '__main__':

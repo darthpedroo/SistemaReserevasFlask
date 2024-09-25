@@ -24,4 +24,10 @@
 []Agregar Tests:
     [x] Reserva Fuera de Horario Válido
     [x] Multiples reservas en un mismo día
-    
+
+FLASK
+
+[] ENDPOINT RESERVAS POR USUARIO
+[] ENDPOINT RESERVAS POR DIA
+[] ENDPOINT CREAR RESERVAS
+[] ENDPOINT BORRAR RESERVAS
