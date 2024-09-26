@@ -1,40 +1,29 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>DocuPorky</title>
-        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    </head>
-<body>
-    <div class="barra">
-        <a href="/reservas">TODAS LAS SALAS</a>
-        <a href="/">MENU PRINCIPAL</a>
-        <a href = "/crear-sala">CREAR SALA</a>
-      </div>
-    <table class="table">
-        <thead>
-          <tr>
-            <th scope="col">Usuario</th>
-            <th scope="col">Reservable</th>
-            <th scope="col">Fecha Reserva</th>
-            <th scope="col">Hora Inicio</th>
-            <th scope="col">Hora Fin</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for reserva in todas_las_reservas %}
-            <tr>
-              <td>{{ reserva._usuario_reserva }}</td>
-              <td>{{ reserva._reservable }}</td>
-              <td>{{ reserva._fecha_reserva }}</td>
-              <td>{{ reserva._hora_inicio_reserva }}</td>
-              <td>{{ reserva._hora_fin_reserva }}</td>
-            </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-      
-    
-</body>
-</html>
+{% extends 'base.html' %}
+
+{% block content %}
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Usuario</th>
+      <th scope="col">Reservable</th>
+      <th scope="col">Fecha Reserva</th>
+      <th scope="col">Hora Inicio</th>
+      <th scope="col">Hora Fin</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for reserva in todas_las_reservas %}
+      <tr>
+        <td>{{ reserva._usuario_reserva }}</td>
+        <td>{{ reserva._reservable }}</td>
+        <td>{{ reserva._fecha_reserva }}</td>
+        <td>{{ reserva._hora_inicio_reserva }}</td>
+        <td>{{ reserva._hora_fin_reserva }}</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{% include 'crear-sala-form.html' %}
+
+{% endblock %}

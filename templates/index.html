@@ -1,18 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>DocuPorky</title>
-        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    </head>
-<body>
-  <div class="barra">
-    <a href="/reservas">TODAS LAS SALAS</a>
-    <a href="/">MENU PRINCIPAL</a>
-    <a href = "/crear-sala">CREAR SALA</a>
-  </div>
-  <h1>BIENVENIDO AL GESTOR DE SALAS :D</h1>
+{% extends 'base.html' %}
 
-</body>
-</html>
+{% block content %}
+<h1>BIENVENIDO AL RESERVADOR DE SALAS</h1>
+{% endblock %}
