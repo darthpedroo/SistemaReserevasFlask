@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request, redirect
 from core.reservamanager import ReservaManager
 from core.fecha import Fecha, Ano, Mes, Dia
 from core.tiempo import Tiempo,Hora,Minuto,Segundo
@@ -45,6 +45,51 @@ def crear_sistema():
     print(": ", reserva_manager.todas_las_reservas)
     return reserva_manager
     
+def realizar_reserva(
+    p_usuario: str, 
+    sala: str, 
+    capacidad_maxima: int, 
+    ano: int, 
+    mes: int, 
+    dia: int, 
+    hora_inicio: int, 
+    minuto_inicio: int, 
+    segundo_inicio: int, 
+    hora_fin: int, 
+    minuto_fin: int, 
+    segundo_fin: int
+):
+    # Initialize the objects with the provided parameters, converting to int where necessary
+    usuario = Usuario(p_usuario)
+    sala = Sala(sala, int(capacidad_maxima))  # Ensure capacidad_maxima is an integer
+    
+    # Convert date values to integers
+    ano = Ano(int(ano))
+    mes = Mes(int(mes))
+    dia = Dia(int(dia))
+    
+    # Convert time start values to integers
+    hora_inicio = Hora(int(hora_inicio))
+    minuto_inicio = Minuto(int(minuto_inicio))
+    segundo_inicio = Segundo(int(segundo_inicio))
+
+    # Convert time end values to integers
+    hora_fin = Hora(int(hora_fin))
+    minuto_fin = Minuto(int(minuto_fin))
+    segundo_fin = Segundo(int(segundo_fin))
+    
+    # Create date and time objects
+    fecha = Fecha(ano, mes, dia)  # Assuming Fecha constructor takes (year, month, day)
+    
+    tiempo_inicio = Tiempo(hora_inicio, minuto_inicio, segundo_inicio)  # Assuming Tiempo takes (hour, minute, second)
+    tiempo_fin = Tiempo(hora_fin, minuto_fin, segundo_fin)
+    
+    # Perform the reservation
+    return usuario.realizar_reserva_programada(sala, fecha, tiempo_inicio, tiempo_fin)
+
+
+
+
 
 app = Flask(__name__)
 reserva_manager = crear_sistema()
@@ -54,7 +99,6 @@ dia_reserva = Dia(12)
 fecha_reserva = Fecha(ano_reserva, mes_reserva, dia_reserva)
 reservas_dia_especifico = reserva_manager.get_reservas_activas_dia_especifico(fecha_reserva)
 todas_las_reservas = reserva_manager.todas_las_reservas
-print("Todas: las resrevas: ", todas_las_reservas)
 
 @app.route("/")
 def index():
@@ -62,11 +106,28 @@ def index():
 
 @app.route("/reservas")
 def crear_reservas():
-    return render_template("reservas.html",todas_las_reservas=todas_las_reservas )
+    return render_template("reservas.html",todas_las_reservas=todas_las_reservas)
 
-@app.route("/crear-sala")
+@app.route("/crear-sala", methods = ["GET", "POST"])
 def crear_sala():
-    return render_template("crear-sala.html",todas_las_reservas=todas_las_reservas )
+    if request.method == 'POST':
+            usuario = request.form["usuario"]
+            sala = request.form["sala"]
+            capacidad_maxima = request.form["capacidad_maxima"]
+            ano = request.form["ano"]
+            mes = request.form["mes"]
+            dia = request.form["dia"]
+            hora_inicio = request.form["hora_inicio"]
+            minuto_inicio = request.form["minuto_inicio"]
+            segundo_inicio = request.form["segundo_inicio"]
+            hora_fin = request.form["hora_fin"]
+            minuto_fin = request.form["minuto_fin"]
+            segundo_fin = request.form["segundo_fin"]
+            new_usuario = Usuario(usuario)
+            todas_las_reservas = realizar_reserva(usuario, sala,capacidad_maxima,ano,mes,dia,hora_inicio,minuto_inicio,segundo_inicio,hora_fin,minuto_fin,segundo_fin)
+            return redirect("/reservas") 
+
+    return render_template("crear-sala.html")
 
 
 
