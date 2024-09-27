@@ -13,6 +13,13 @@ class ReservaManager:
     def todas_las_reservas(self):
         return self._todas_las_reservas    
 
+    def get_reserva_by_id(self, id: int):
+        try:
+            return self._todas_las_reservas[id]
+        except ValueError:
+            raise NoExisteLaReserva
+        
+
     def get_reservas_activas_dia_especifico(self, fecha: Fecha):
         """Obtiene la reserva de un dia específico"""
         reservas_dia_especifico = []

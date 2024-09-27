@@ -4,6 +4,7 @@
 <table class="table">
   <thead>
     <tr>
+      <th scope="col">Index</th>
       <th scope="col">Usuario</th>
       <th scope="col">Reservable</th>
       <th scope="col">Fecha Reserva</th>
@@ -13,17 +14,52 @@
   </thead>
   <tbody>
     {% for reserva in todas_las_reservas %}
-      <tr>
-        <td>{{ reserva._usuario_reserva  }}</td>
+    <tr>
+        <td>{{ loop.index }}</td>
+        <td>{{ reserva._usuario_reserva }}</td>
         <td>{{ reserva._reservable }}</td>
         <td>{{ reserva._fecha_reserva }}</td>
         <td>{{ reserva._hora_inicio_reserva }}</td>
         <td>{{ reserva._hora_fin_reserva }}</td>
-      </tr>
+        <td>
+          <form class="reservation-form" action="/cancelar-reserva" method="POST" onsubmit="handleSubmito(event)">
+            <input type="hidden" name="index" value="{{ loop.index }}">
+            <input type="hidden" name="usuario" class="usuario-input">
+            <button type="submit" class="btn btn-danger">BORRAR SALA {{ reserva._reservable }}</button>
+        </form>
+        
+        </td>
+    </tr>
     {% endfor %}
   </tbody>
 </table>
 
+{% include 'crear-usuario.html' %}
 {% include 'crear-sala-form.html' %}
+
+<script>
+  function handleSubmito(event) {
+      event.preventDefault();
+  
+      const usuario = localStorage.getItem('usuario-name'); 
+  
+      if (usuario) {
+          const form = event.currentTarget;
+          console.log(form)
+          console.log(form.querySelector('.usuario-input'))
+          const hiddenInput = form.querySelector('.usuario-input'); 
+          if (hiddenInput) {
+              hiddenInput.value = usuario;  
+  
+              form.submit();  
+          } else {
+              console.error("Hidden input field for 'usuario' not found.");
+          }
+      } else {
+          alert("Usuario not found in local storage.");
+      }
+  }
+  </script>
+  
 
 {% endblock %}

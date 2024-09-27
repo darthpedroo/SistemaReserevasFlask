@@ -4,6 +4,7 @@ from core.fecha import Fecha, Ano, Mes, Dia
 from core.tiempo import Tiempo,Hora,Minuto,Segundo
 from core.usuario import Usuario
 from core.sala import Sala
+from core.reserva import Reserva
 
 def crear_sistema():
     reserva_manager_2 = ReservaManager()
@@ -37,7 +38,7 @@ def crear_sistema():
     segundo2_reserva = Segundo(0)
     horario_fin_reserva = Tiempo(hora2_reserva,minuto2_reserva,segundo2_reserva)
     
-    reserva_manager =porky.realizar_reserva_programada(sala_papu,fecha_reserva_1,horario_inicio_reserva,horario_fin_reserva)
+    reserva_manager =juani.realizar_reserva_programada(sala_papu,fecha_reserva_1,horario_inicio_reserva,horario_fin_reserva)
     reserva_manager =juani.realizar_reserva_programada(sala_papu,fecha_reserva_2,horario_inicio_reserva,horario_fin_reserva)
     reserva_manager =gazo.realizar_reserva_programada(sala_papu,fecha_reserva_3,horario_inicio_reserva,horario_fin_reserva)
     reserva_manager =porky.realizar_reserva_programada(sala_papu,fecha_reserva_4,horario_inicio_reserva,horario_fin_reserva)
@@ -59,34 +60,28 @@ def realizar_reserva(
     minuto_fin: int, 
     segundo_fin: int
 ):
-    # Initialize the objects with the provided parameters, converting to int where necessary
     usuario = Usuario(p_usuario)
-    sala = Sala(sala, int(capacidad_maxima))  # Ensure capacidad_maxima is an integer
-    
-    # Convert date values to integers
+    sala = Sala(sala, int(capacidad_maxima)) 
     ano = Ano(int(ano))
     mes = Mes(int(mes))
     dia = Dia(int(dia))
     
-    # Convert time start values to integers
     hora_inicio = Hora(int(hora_inicio))
     minuto_inicio = Minuto(int(minuto_inicio))
     segundo_inicio = Segundo(int(segundo_inicio))
 
-    # Convert time end values to integers
     hora_fin = Hora(int(hora_fin))
     minuto_fin = Minuto(int(minuto_fin))
     segundo_fin = Segundo(int(segundo_fin))
     
-    # Create date and time objects
-    fecha = Fecha(ano, mes, dia)  # Assuming Fecha constructor takes (year, month, day)
-    
-    tiempo_inicio = Tiempo(hora_inicio, minuto_inicio, segundo_inicio)  # Assuming Tiempo takes (hour, minute, second)
+    fecha = Fecha(ano, mes, dia) 
+    tiempo_inicio = Tiempo(hora_inicio, minuto_inicio, segundo_inicio)  
     tiempo_fin = Tiempo(hora_fin, minuto_fin, segundo_fin)
     
-    # Perform the reservation
     return usuario.realizar_reserva_programada(sala, fecha, tiempo_inicio, tiempo_fin)
 
+def cancelar_reserva_usuario(usuario: Usuario,reserva: Reserva):
+    usuario.cancelar_reserva_programada(reserva)
 
 
 
@@ -126,10 +121,25 @@ def crear_sala():
             new_usuario = Usuario(usuario)
             todas_las_reservas = realizar_reserva(usuario, sala,capacidad_maxima,ano,mes,dia,hora_inicio,minuto_inicio,segundo_inicio,hora_fin,minuto_fin,segundo_fin)
             return redirect("/reservas") 
-
     return render_template("crear-sala.html")
 
+@app.route("/crear-usuario")
+def crear_usuario_local_storage():
+    return render_template("crear-usuario.html") 
 
+@app.route("/cancelar-reserva", methods = ["GET", "POST"])
+def cancelar_reserva():
+    if request.method =="POST":
+        usuario = request.form["usuario"]
+        index_s = request.form["index"]
+        index = int(index_s)-1
+        new_user = Usuario(usuario)
+        reserva = reserva_manager.get_reserva_by_id(index)
+        print(reserva)
+        new_user.cancelar_reserva_programada(reserva)
+    return render_template("reservas.html",todas_las_reservas=todas_las_reservas)
+        
+     
 
 if __name__ == '__main__':
     app.run(port=5000,debug=True)
