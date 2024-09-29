@@ -1,35 +1,5 @@
+{% extends 'base.html' %}
+
 {% block content %}
-<marquee><b><h3> CREA TU USUARIO O LOGEATE COMO UNO NUEVO ! NO ME IMPORTA LA SEGURIDAD DE LA PAGINA !</h3></b></marquee>
-<form onsubmit="handleSubmit(event)">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-4 form-group">
-                <label for="Usuario">Usuario</label>
-                <input type="text" name="capacidad_maxima" class="form-control" id="usuario-name" placeholder="Ingrese su Usuario">
-            </div>
-        </div>
-
-        <button type="submit" class="btn btn-primary">Submit</button>
-    </div>
-</form>
-
-<style>
-form {
-    max-width: 800px; 
-    margin: 0 auto; 
-}
-</style>
-
-<script>
-    function handleSubmit(event){
-        event.preventDefault();
-        const inputValue = document.getElementById('usuario-name').value;
-        localStorage.setItem('usuario-name', inputValue);
-        lc = localStorage.getItem('usuario-name');
-        console.log(lc)
-
-    }
-
-</script>
-
+{% include 'crear-usuario-form.html' %}
 {% endblock %}

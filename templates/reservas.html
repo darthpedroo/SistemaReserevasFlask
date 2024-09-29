@@ -34,7 +34,7 @@
   </tbody>
 </table>
 
-{% include 'crear-usuario.html' %}
+{% include 'crear-usuario-form.html' %}
 {% include 'crear-sala-form.html' %}
 
 <script>
@@ -50,13 +50,12 @@
           const hiddenInput = form.querySelector('.usuario-input'); 
           if (hiddenInput) {
               hiddenInput.value = usuario;  
-  
               form.submit();  
           } else {
-              console.error("Hidden input field for 'usuario' not found.");
+              console.error("NO SE A ENCONTRADO EL FIELD DE USUARIO");
           }
       } else {
-          alert("Usuario not found in local storage.");
+          alert("CREATE UN USUARIO PRIMERO ");
       }
   }
   </script>
