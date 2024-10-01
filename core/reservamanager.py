@@ -3,15 +3,26 @@ from core.reservableprogramado import Reservable
 from core.fecha import Fecha
 from core.tiempo import Hora 
 from core.exceptions import ReservableYaReservado, NoExisteLaReserva, ReservaPerteneceOtroUsuario
+#from core.sala import Sala
+
 #from usuario import Usuario
 class ReservaManager:
     
     def __init__(self) -> None:
         self._todas_las_reservas:list[Reserva] = []
+        self._todas_las_salas = []
 
     @property
     def todas_las_reservas(self):
         return self._todas_las_reservas    
+
+    @property
+    def todas_las_salas(self):
+        return self._todas_las_salas
+
+    def agregar_sala(self, sala: "Sala"):
+        self._todas_las_salas.append(sala)
+
 
     def get_reserva_by_id(self, id: int):
         try:

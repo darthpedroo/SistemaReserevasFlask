@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>SALA MANAGER</h1>
+{% for sala in salas %}
+    <h1>{{sala}}</h1>
+{% endfor %}
+
+<form action="/agregar-sala" method="POST">
+    
+    <input  name="nombre" placeholder="ingrese el nombre">
+    <input  name="capacidad_maxima" placeholder=" ingrese la capacidad_maxima">
+
+    <button type="submit" class="btn btn-danger">AGREGAR SALA :)</button>
+</form>
+{% endblock %}

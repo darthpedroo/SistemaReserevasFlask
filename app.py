@@ -146,7 +146,31 @@ def cancelar_reserva():
 
     return render_template("reservas.html",todas_las_reservas=todas_las_reservas)
         
-     
+@app.route("/salas", methods = ["GET"])
+def get_salas():
+    salas = reserva_manager.todas_las_salas
+    return render_template("salas.html",salas=salas)
+
+@app.route("/agregar-sala", methods=["GET", "POST"])
+def agregar_sala():
+    if request.method == "POST":
+        try:
+            nombre = request.form["nombre"]
+            capacidad_maxima = request.form["capacidad_maxima"]
+            new_sala = Sala(nombre, int(capacidad_maxima))
+            reserva_manager.agregar_sala(new_sala)
+            
+            
+            print("Sala creada excitosamente !")
+        except Exception as ex:
+            return render_template("exception.html",ex=ex)
+    salas = reserva_manager.todas_las_salas
+    return render_template("salas.html", salas=salas)
+
+
+
+            
+
 
 if __name__ == '__main__':
     app.run(port=5000,debug=True)
