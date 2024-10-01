@@ -1,0 +1,70 @@
+<marquee><b><h3> CREA TU RESERVA !</h3></b></marquee>
+<form action="/crear-reserva" method="POST">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 form-group">
+                <label for="exampleInputEmail1">Usuario</label>
+                <input type="text" name="usuario" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Ingresa tu Nombre de Usuario">
+                <small id="emailHelp" class="form-text text-muted">Tu info esta segura en la pagina ! (🤣)</small>
+            </div>
+            <div class="col-md-4 form-group">
+                <label for="exampleInputPassword1">Sala</label>
+                <input type="text" name="sala" class="form-control" id="exampleInputPassword1" placeholder="Ingrese el nombre de la Sala">
+            </div>
+            <div class="col-md-4 form-group">
+                <label for="capacidadMaxima">Capacidad Maxima</label>
+                <input type="text" name="capacidad_maxima" class="form-control" id="capacidadMaxima" placeholder="Ingrese la capacidad maxima">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 form-group">
+                <label for="ano">Año</label>
+                <input type="text" name="ano" class="form-control" id="ano" placeholder="Ingrese el Año">
+            </div>
+            <div class="col-md-4 form-group">
+                <label for="mes">Mes</label>
+                <input type="text" name="mes" class="form-control" id="mes" placeholder="Ingrese el Mes">
+            </div>
+            <div class="col-md-4 form-group">
+                <label for="dia">Dia</label>
+                <input type="text" name="dia" class="form-control" id="dia" placeholder="Ingrese el Dia">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 form-group">
+                <label for="horaInicio">Hora Inicio</label>
+                <input type="text" name="hora_inicio" class="form-control" id="horaInicio" placeholder="Ingrese la Hora Inicio">
+            </div>
+            <div class="col-md-4 form-group">
+                <label for="minutoInicio">Minuto Inicio</label>
+                <input type="text" name="minuto_inicio" class="form-control" id="minutoInicio" placeholder="Ingrese el Minuto Inicio">
+            </div>
+            <div class="col-md-4 form-group">
+                <label for="segundoInicio">Segundo Inicio</label>
+                <input type="text" name="segundo_inicio" class="form-control" id="segundoInicio" placeholder="Ingrese el Segundo Inicio">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 form-group">
+                <label for="horaFin">Hora Fin</label>
+                <input type="text" name="hora_fin" class="form-control" id="horaFin" placeholder="Ingrese la Hora Fin">
+            </div>
+            <div class="col-md-4 form-group">
+                <label for="minutoFin">Minuto Fin</label>
+                <input type="text" name="minuto_fin" class="form-control" id="minutoFin" placeholder="Ingrese el Minuto Fin">
+            </div>
+            <div class="col-md-4 form-group">
+                <label for="segundoFin">Segundo Fin</label>
+                <input type="text" name="segundo_fin" class="form-control" id="segundoFin" placeholder="Ingrese el Segundo Fin">
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+</form>
+
+<style>
+form {
+    max-width: 800px; 
+    margin: 0 auto; 
+}
+</style>

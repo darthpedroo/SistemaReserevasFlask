@@ -103,8 +103,8 @@ def index():
 def crear_reservas():
     return render_template("reservas.html",todas_las_reservas=todas_las_reservas)
 
-@app.route("/crear-sala", methods = ["GET", "POST"])
-def crear_sala():
+@app.route("/crear-reserva", methods = ["GET", "POST"])
+def crear_reserva():
     if request.method == 'POST':
             try:
                 usuario = request.form["usuario"]
@@ -124,7 +124,7 @@ def crear_sala():
                 return redirect("/reservas")
             except Exception as ex:
                 return render_template("exception.html",ex=ex)
-    return render_template("crear-sala.html")
+    return render_template("crear-reserva.html")
 
 @app.route("/crear-usuario")
 def crear_usuario_local_storage():
