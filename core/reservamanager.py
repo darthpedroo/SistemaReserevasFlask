@@ -22,6 +22,13 @@ class ReservaManager:
 
     def agregar_sala(self, sala: "Sala"):
         self._todas_las_salas.append(sala)
+    
+    def encontrar_sala_from_string(self, sala_str: str):
+        for sala in self.todas_las_salas:
+            if sala.nombre_eq_string(sala_str):
+                return sala
+        return None
+             
 
 
     def get_reserva_by_id(self, id: int):

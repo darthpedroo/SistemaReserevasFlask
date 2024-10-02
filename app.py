@@ -106,10 +106,10 @@ def crear_reservas():
 @app.route("/crear-reserva", methods = ["GET", "POST"])
 def crear_reserva():
     if request.method == 'POST':
-            try:
+            #try:
+                print("Form data:", request.form)
                 usuario = request.form["usuario"]
                 sala = request.form["sala"]
-                capacidad_maxima = request.form["capacidad_maxima"]
                 ano = request.form["ano"]
                 mes = request.form["mes"]
                 dia = request.form["dia"]
@@ -119,12 +119,20 @@ def crear_reserva():
                 hora_fin = request.form["hora_fin"]
                 minuto_fin = request.form["minuto_fin"]
                 segundo_fin = request.form["segundo_fin"]
+
+
+                print("dadadadad",sala)
+                curr_sala = reserva_manager.encontrar_sala_from_string(sala)
+                capacidad_maxima = curr_sala.capacidad_maxima
+                print("capa max: ", capacidad_maxima)
+
                 new_usuario = Usuario(usuario)
                 todas_las_reservas = realizar_reserva(usuario, sala,capacidad_maxima,ano,mes,dia,hora_inicio,minuto_inicio,segundo_inicio,hora_fin,minuto_fin,segundo_fin)
                 return redirect("/reservas")
-            except Exception as ex:
-                return render_template("exception.html",ex=ex)
-    return render_template("crear-reserva.html")
+            #except Exception as ex:
+             #   return render_template("exception.html",ex=ex)
+    salas = reserva_manager.todas_las_salas
+    return render_template("crear-reserva.html",salas=salas)
 
 @app.route("/crear-usuario")
 def crear_usuario_local_storage():

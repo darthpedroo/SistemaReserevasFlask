@@ -12,6 +12,16 @@ class Sala(ReservableProgramado): #UNA SALA ES UNA SALA. UNA SALA NO DEBE TENER 
     def __str__(self) -> str:
         return self._nombre
 
+    @property
+    def capacidad_maxima(self):
+        return self._capacidad_maxima
+
+    def __eq__(self, otra_sala: "Sala"):
+        return self._nombre == otra_sala._nombre
+
+    def nombre_eq_string(self, nombre:str):
+        return self._nombre == nombre
+
     def usuario_me_realizo_una_reserva(self,usuario:Usuario, fecha_reserva:Fecha, hora_inicio_reserva: Tiempo, hora_fin_reserva: Tiempo):
         """Delega a SingletonReservaManager la creación de una sala"""
         reserva_manager = SingletonReservaManager()

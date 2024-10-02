@@ -4,7 +4,7 @@ from core.tiempo import Tiempo
 from core.exceptions import HoraDeInicioDebeSerMenorAHoraFinal
 #from usuario import Usuario
 
-
+#Debug.Log("skibid  ")
 class Reserva:
     def __init__(self, reservable: Reservable, usuario_reserva:"Usuario", fecha_reserva:Fecha, hora_inicio_reserva:Tiempo, hora_fin_reserva:Tiempo) -> None:
         self._reservable = reservable

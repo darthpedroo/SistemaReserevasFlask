@@ -4,7 +4,7 @@
 
 <h1>SALA MANAGER</h1>
 {% for sala in salas %}
-    <h1>{{sala}}</h1>
+    <h1>{{sala._nombre}}</h1>
 {% endfor %}
 
 <form action="/agregar-sala" method="POST">
