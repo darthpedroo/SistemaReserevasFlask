@@ -8,10 +8,12 @@ from core.reserva import Reserva
 
 def crear_sistema():
     reserva_manager_2 = ReservaManager()
+    sala_papu = Sala(nombre="Salita" ,capacidad_maxima=10)
+    
+
     porky = Usuario("John Pork")
     juani = Usuario("Juanitroooox")
     gazo = Usuario("Gazo")
-    sala_papu = Sala(nombre="Salita" ,capacidad_maxima=10)
     
     ano_reserva = Ano(2024)
     mes_reserva = Mes(9)
@@ -43,6 +45,7 @@ def crear_sistema():
     reserva_manager =gazo.realizar_reserva_programada(sala_papu,fecha_reserva_3,horario_inicio_reserva,horario_fin_reserva)
     reserva_manager =porky.realizar_reserva_programada(sala_papu,fecha_reserva_4,horario_inicio_reserva,horario_fin_reserva)
     reserva_manager = porky.realizar_reserva_programada(sala_papu,fecha_reserva_5,horario_inicio_reserva,horario_fin_reserva)
+    reserva_manager.agregar_sala(sala_papu)
     print(": ", reserva_manager.todas_las_reservas)
     return reserva_manager
     
@@ -101,12 +104,13 @@ def index():
 
 @app.route("/reservas")
 def crear_reservas():
-    return render_template("reservas.html",todas_las_reservas=todas_las_reservas)
+    salas = reserva_manager.todas_las_salas
+    return render_template("reservas.html",salas=salas ,todas_las_reservas=todas_las_reservas)
 
 @app.route("/crear-reserva", methods = ["GET", "POST"])
 def crear_reserva():
     if request.method == 'POST':
-            #try:
+            try:
                 print("Form data:", request.form)
                 usuario = request.form["usuario"]
                 sala = request.form["sala"]
@@ -129,8 +133,8 @@ def crear_reserva():
                 new_usuario = Usuario(usuario)
                 todas_las_reservas = realizar_reserva(usuario, sala,capacidad_maxima,ano,mes,dia,hora_inicio,minuto_inicio,segundo_inicio,hora_fin,minuto_fin,segundo_fin)
                 return redirect("/reservas")
-            #except Exception as ex:
-             #   return render_template("exception.html",ex=ex)
+            except Exception as ex:
+                return render_template("exception.html",ex=ex)
     salas = reserva_manager.todas_las_salas
     return render_template("crear-reserva.html",salas=salas)
 
