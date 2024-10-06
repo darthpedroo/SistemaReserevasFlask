@@ -28,9 +28,18 @@ class ReservaManager:
             if sala.nombre_eq_string(sala_str):
                 return sala
         return None
-             
 
+    def load_salas(self, salas: list["Sala"]):
+        """Toma una lista de salas y las carga self._todas_las_salas
 
+        Args:
+            salas (list[&quot;Sala&quot;]): _description_
+        """
+
+        for sala in salas:
+            self._todas_las_salas.append(sala)
+    
+    
     def get_reserva_by_id(self, id: int):
         try:
             return self._todas_las_reservas[id]

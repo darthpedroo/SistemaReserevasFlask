@@ -5,62 +5,23 @@ from core.tiempo import Tiempo, Hora, Minuto, Segundo
 from core.usuario import Usuario
 from core.sala import Sala
 from core.reserva import Reserva
-from dao.reservaDAO import ReservaDAO
-from dao.salaDAO import SalaDAO
+
+from dao.sala.salaSQLiteDao import SalaSqliteDao
 
 
 DB_PATH = "./data/boiler.db"
 
 
 def crear_sistema():
-    reserva_manager_2 = ReservaManager()
-    sala_dao = SalaDAO(DB_PATH)
-
-    sala_papu = Sala("Salita", 10)
-    sala_dao.agregar_sala(sala_papu)
-    porky = Usuario("John Pork")
-    juani = Usuario("Juanitroooox")
-    gazo = Usuario("Gazo")
-
-    ano_reserva = Ano(2024)
-    mes_reserva = Mes(9)
-    dia_reserva_1 = Dia(12)
-    dia_reserva_2 = Dia(13)
-    dia_reserva_3 = Dia(14)
-    dia_reserva_4 = Dia(15)
-    dia_reserva_5 = Dia(16)
-
-    fecha_reserva_1 = Fecha(ano_reserva, mes_reserva, dia_reserva_1)
-    fecha_reserva_2 = Fecha(ano_reserva, mes_reserva, dia_reserva_2)
-    fecha_reserva_3 = Fecha(ano_reserva, mes_reserva, dia_reserva_3)
-    fecha_reserva_4 = Fecha(ano_reserva, mes_reserva, dia_reserva_4)
-    fecha_reserva_5 = Fecha(ano_reserva, mes_reserva, dia_reserva_5)
-
-    hora_reserva = Hora(3)
-    minuto_reserva = Minuto(0)
-    segundo_reserva = Segundo(0)
-    horario_inicio_reserva = Tiempo(
-        hora_reserva, minuto_reserva, segundo_reserva)
-
-    hora2_reserva = Hora(5)
-    minuto2_reserva = Minuto(0)
-    segundo2_reserva = Segundo(0)
-    horario_fin_reserva = Tiempo(
-        hora2_reserva, minuto2_reserva, segundo2_reserva)
-
-    reserva_manager = juani.realizar_reserva_programada(
-        sala_papu, fecha_reserva_1, horario_inicio_reserva, horario_fin_reserva)
-    reserva_manager = juani.realizar_reserva_programada(
-        sala_papu, fecha_reserva_2, horario_inicio_reserva, horario_fin_reserva)
-    reserva_manager = gazo.realizar_reserva_programada(
-        sala_papu, fecha_reserva_3, horario_inicio_reserva, horario_fin_reserva)
-    reserva_manager = porky.realizar_reserva_programada(
-        sala_papu, fecha_reserva_4, horario_inicio_reserva, horario_fin_reserva)
-    reserva_manager = porky.realizar_reserva_programada(
-        sala_papu, fecha_reserva_5, horario_inicio_reserva, horario_fin_reserva)
-    reserva_manager.agregar_sala(sala_dao)
-    print(": ", reserva_manager.todas_las_reservas)
+    reserva_manager = ReservaManager()
+    sala_dao = SalaSqliteDao(DB_PATH)
+    todas_las_salas = sala_dao.get_all_salas()
+    reserva_manager.load_salas(todas_las_salas)
+    print("Todas las salas: ", todas_las_salas)
     return reserva_manager
+
+    
+    
 
 
 def realizar_reserva(
