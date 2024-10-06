@@ -28,3 +28,10 @@ class SalaSqliteDao(SalaDao):
             Sala(*sala) for sala in salas
         ]
 
+    def add_sala(self, sala: Sala):
+        with sqlite3.connect(self.__db_path) as conn:
+            cursor = conn.execute(
+                """INSERT INTO salas (nombre,capacidad_maxima)
+	            VALUES (?,?);""",(str(sala), sala.capacidad_maxima)
+            )
+

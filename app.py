@@ -11,18 +11,15 @@ from dao.sala.salaSQLiteDao import SalaSqliteDao
 
 DB_PATH = "./data/boiler.db"
 
+sala_dao = SalaSqliteDao(DB_PATH)
 
 def crear_sistema():
     reserva_manager = ReservaManager()
-    sala_dao = SalaSqliteDao(DB_PATH)
+    
     todas_las_salas = sala_dao.get_all_salas()
     reserva_manager.load_salas(todas_las_salas)
     print("Todas las salas: ", todas_las_salas)
     return reserva_manager
-
-    
-    
-
 
 def realizar_reserva(
     p_usuario: str,
@@ -57,7 +54,6 @@ def realizar_reserva(
     tiempo_fin = Tiempo(hora_fin, minuto_fin, segundo_fin)
 
     return usuario.realizar_reserva_programada(sala, fecha, tiempo_inicio, tiempo_fin)
-
 
 def cancelar_reserva_usuario(usuario: Usuario, reserva: Reserva):
     usuario.cancelar_reserva_programada(reserva)
@@ -153,7 +149,7 @@ def agregar_sala():
             capacidad_maxima = request.form["capacidad_maxima"]
             new_sala = Sala(nombre, int(capacidad_maxima))
             reserva_manager.agregar_sala(new_sala)
-
+            sala_dao.add_sala(new_sala)
             print("Sala creada excitosamente !")
         except Exception as ex:
             return render_template("exception.html", ex=ex)
