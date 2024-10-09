@@ -46,6 +46,15 @@ SALAS:
     [x]CREAR SALAS
 
     
+AL BORRAR UNA SALA:
+    []ERROR: 'str' object has no attribute '_nombre'
+    ISSSSSSSUEEEEEEEE‼‼‼‼‼‼‼‼⁉⁉⁉⁉⁉⁉👩🏾‍🤝‍🧑🏼👩🏾‍🤝‍🧑🏻🗣🧞‍♂️🗣🦃🐓🐚🐡🦐 (ERROR EN INGLES POR LAS DUDAS) PORKY, COMO USUARIO QUIERO PODER CANCELAR UNA RESERVA WITHOUT QUE ME SALGA QUE LA RESERVA NO EXISTE (ESTUPIDIN ESCRUMIN RETRASADIN AUTISTIN TARADIN MOBOLIQUIN 🔥🔥🔥🔥🔥🧠🧠🧠😎🤓🤓🤓🤓🤓🤓🤓🤓🤓🤓🤓🤓🤓🤓🤓🤓🤓🤓🤓🤓🤓🤓☝☝☝☝☝☝☝☝☝☝☝☝☝)
+
+    [] NotImplementedError, EN USUARIO! Fijarse de que a la reserva se pase bien el usuario borrado, porque tira "NOT IMPLEMENTED".
+        Entonces, le estoy pasando mal el atributeee.  
+
+
+    
 
 []HACER TESTS DAO
     []Setup 

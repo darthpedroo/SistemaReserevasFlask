@@ -14,6 +14,7 @@ class Reserva:
         self._hora_fin_reserva = hora_fin_reserva
 
         if hora_inicio_reserva >= hora_fin_reserva:
+            print("reservable: ", self._reservable)
             raise HoraDeInicioDebeSerMenorAHoraFinal
 
     def __eq__(self, otra_reserva: "Reserva") -> bool:

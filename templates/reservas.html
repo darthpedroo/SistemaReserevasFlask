@@ -25,7 +25,7 @@
           <form class="reservation-form" action="/cancelar-reserva" method="POST" onsubmit="handleSubmito(event)">
             <input type="hidden" name="index" value="{{ loop.index }}">
             <input type="hidden" name="usuario" class="usuario-input">
-            <button type="submit" class="btn btn-danger">BORRAR SALA {{ reserva._reservable }}</button>
+            <button type="submit" class="btn btn-danger">Cancelar Reserva {{ reserva._reservable }}</button>
         </form>
         
         </td>
