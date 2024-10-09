@@ -1,0 +1,32 @@
+{
+    "salas": [
+        {
+            "nombre": "Nombre_sala:V",
+            "capacidad_maxima": 10
+        },
+        {
+            "nombre": "Nombre_sala:V",
+            "capacidad_maxima": 10
+        },
+        {
+            "nombre": "Nombre_sala:V",
+            "capacidad_maxima": 10
+        },
+        {
+            "nombre": "Nombre_sala:V",
+            "capacidad_maxima": 10
+        },
+        {
+            "nombre": "Nombre_sala:V",
+            "capacidad_maxima": 10
+        },
+        {
+            "nombre": "Nombre_sala:V",
+            "capacidad_maxima": 10
+        },
+        {
+            "nombre": "Nombre_sala:V",
+            "capacidad_maxima": 10
+        }
+    ]
+}
