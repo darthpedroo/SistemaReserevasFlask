@@ -28,13 +28,35 @@ def is_input_greater_than_zero(input):
     return True
 
 def parse_fecha(fecha_str: str) -> "Fecha":
+    """Se ingresa una fecha como string (formato de la base de datos) y se devuelve una instancia de la clase Fecha
+
+    Args:
+        fecha_str (str): xx-yy-zz
+
+    Raises:
+        ValueError: Si se ingresa un string en vez de un numero 
+
+    Returns:
+        Fecha: Fecha(Ano(xx),Mes(yy),Dia(zz))
+    """    
     try:
         dia, mes, ano = map(int, fecha_str.split('-')) 
         return Fecha(Ano(dia), Mes(mes), Dia(ano))
     except ValueError:
         raise ValueError("Formato de Fecha INVALIDO!")
 
-def parse_hora(hora_str):
+def parse_hora(hora_str: str)->Hora:
+    """Se ingresa una hora como string (formato de la base de datos) y se devuelve una instancia de la clase Hora
+
+    Args:
+        hora_str (str): xx-yy-zz
+
+    Raises:
+        ValueError: Si se ingresa un string en vez de un numero 
+
+    Returns:
+        Hora: Hora(Ano(xx),Mes(yy),Dia(zz))
+    """   
     try:
         hora, minuto, segundo = map(int, hora_str.split("-"))
         return Tiempo(Hora(hora),Minuto(minuto),Segundo(segundo))

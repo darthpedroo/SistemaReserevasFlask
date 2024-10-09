@@ -35,21 +35,36 @@ class Reserva:
             return False
         return not (self._hora_fin_reserva <= otra_reserva._hora_inicio_reserva or self._hora_inicio_reserva >= otra_reserva._hora_fin_reserva)
 
-    def es_el_mismo_usuario(self, otro_usuario: "Usuario"):
-        print("THIS, ", self._usuario_reserva)
-        print("OTHER. ", otro_usuario)
-        print("THIS, ", type(self._usuario_reserva))
-        print("OTHER. ", type(otro_usuario))
+    def es_el_mismo_usuario(self, otro_usuario: "Usuario")-> bool:
+        """Funcion para checkear si es el mismo usuario que realizo una reserva
+
+        Args:
+            otro_usuario (Usuario)
+
+        Returns:
+            bool: Devuelve true si es el mismo usuario
+        """        
+        
         return self._usuario_reserva == otro_usuario
 
-    def esta_reservada_para_la_fecha(self, otra_fecha: Fecha):
+    def esta_reservada_para_la_fecha(self, otra_fecha: Fecha)-> bool:
+        """Checkea si una reseva esta reservada para una fecha en esepcificio
+
+        Args:
+            otra_fecha (Fecha)
+
+        Returns:
+            bool: True si esta reservada para esa fecha
+        """        
         return self._fecha_reserva == otra_fecha
 
-    def es_el_mismo_reservable(self, otro_reservable: Reservable):
+    def es_el_mismo_reservable(self, otro_reservable: Reservable)-> bool:
         return self._reservable == otro_reservable
 
-    def es_misma_hora_inicio(self, otra_hora_inicio: Tiempo):
+    def es_misma_hora_inicio(self, otra_hora_inicio: Tiempo)-> bool:
         return self._hora_inicio_reserva == otra_hora_inicio
 
-    def es_misma_hora_fin(self, otra_hora_fin: Tiempo):
+    def es_misma_hora_fin(self, otra_hora_fin: Tiempo)-> bool:
         return self._hora_fin_reserva == otra_hora_fin
+
+
