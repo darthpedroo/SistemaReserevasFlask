@@ -8,3 +8,6 @@ class ReservaDao:
 
     def add_reserva(reserva: "Reserva"):
         pass
+
+    def borrar_reserva(reserva: "Reserva"):
+        pass

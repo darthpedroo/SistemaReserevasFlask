@@ -1,4 +1,3 @@
-from core.helpers import is_input_greater_than_zero
 from core.exceptions import NumeroMenorAZero, FechaInvalida
 
 class Fecha:

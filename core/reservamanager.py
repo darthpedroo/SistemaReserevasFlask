@@ -3,8 +3,7 @@ from core.reservableprogramado import Reservable
 from core.fecha import Fecha
 from core.tiempo import Hora
 from core.exceptions import ReservableYaReservado, NoExisteLaReserva, ReservaPerteneceOtroUsuario
-from dao.reserva.reservaSQLiteDAo import ReservaSqliteDao
-
+#from dao.reserva.reservaSQLiteDAo import ReservaSqliteDao
 # from core.sala import Sala
 
 # from usuario import Usuario
@@ -45,8 +44,12 @@ class ReservaManager:
             self._todas_las_salas.append(sala)
 
     def load_reservas(self, reservas: list[Reserva]):
+        self._todas_las_reservas = []
         for reserva in reservas:
             self._todas_las_reservas.append(reserva)
+
+    def cantidad_reservas(self):
+        return len(self._todas_las_reservas)
 
     def get_reserva_by_id(self, id: int):
         try:
@@ -72,9 +75,11 @@ class ReservaManager:
 
     def __get_reserva_especifica(self, otra_reserva: Reserva):
         """Obtiene una reserva de un día especifico"""
-
-        print("Todas las reseeeeerecaaas boeee", self._todas_las_reservas)
+        print("ibot")
+        print("self._todas las rservas", self._todas_las_reservas)
         for reserva in self._todas_las_reservas:
+            print("OTRA", otra_reserva)
+            print("RESERVA: ", reserva)
             if otra_reserva == reserva:
                 return reserva
         return None
@@ -83,16 +88,17 @@ class ReservaManager:
         """Borra una reserva de un día especifico"""
         self._todas_las_reservas.remove(reserva)
 
-    def crear_reserva(self, reservable: Reservable, usuario: "Usuario", fecha_reserva: Fecha, hora_inicio_reserva: Hora, hora_fin_reserva: Hora):
+    def crear_reserva(self,  reservable: Reservable, index:int, usuario: "Usuario", fecha_reserva: Fecha, hora_inicio_reserva: Hora, hora_fin_reserva: Hora):
         """Crea una reserva"""
 
-        # MEDIO TROLL PERO SI NO ESTÁ ESTO NO ANDA NADA
-        reserva_dao = ReservaSqliteDao(DB_PATH)
-        todas_las_reservas = reserva_dao.get_all_reservas()
-        self.load_reservas(todas_las_reservas)
+   #     # MEDIO TROLL PERO SI NO ESTÁ ESTO NO ANDA NADA
+     #   reserva_dao = ReservaSqliteDao(DB_PATH)
+      #  todas_las_reservas = reserva_dao.get_all_reservas()
+      #  self.load_reservas(todas_las_reservas)
         # MEDIO TROLL PERO SI NO ESTÁ ESTO NO ANDA NADA
 
-        reserva = Reserva(reservable, usuario, fecha_reserva,
+        #OJITO ACA CON EL ORDEN DE LAS COSAS
+        reserva = Reserva(index,reservable, usuario, fecha_reserva,
                           hora_inicio_reserva, hora_fin_reserva)
         if self.reserva_esta_ocupada(reserva):
             raise ReservableYaReservado
@@ -101,10 +107,6 @@ class ReservaManager:
 
     def cancelar_reserva(self, usuario: "Usuario", reserva: Reserva):
         """Cancela una reserva"""
-
-        reserva_dao = ReservaSqliteDao(DB_PATH)
-        todas_las_reservas = reserva_dao.get_all_reservas()
-        self.load_reservas(todas_las_reservas)
 
         reserva = self.__get_reserva_especifica(reserva)
 

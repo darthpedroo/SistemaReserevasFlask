@@ -1,6 +1,9 @@
 {% extends 'base.html' %}
 
 {% block content %}
+
+TEST = {{ test }}
+
 <table class="table">
   <thead>
     <tr>
@@ -13,6 +16,7 @@
     </tr>
   </thead>
   <tbody>
+
     {% for reserva in todas_las_reservas %}
     <tr>
         <td>{{ loop.index }}</td>

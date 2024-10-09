@@ -6,7 +6,8 @@ from core.exceptions import HoraDeInicioDebeSerMenorAHoraFinal
 
 
 class Reserva:
-    def __init__(self, reservable: Reservable, usuario_reserva: "Usuario", fecha_reserva: Fecha, hora_inicio_reserva: Tiempo, hora_fin_reserva: Tiempo) -> None:
+    def __init__(self, id: int, reservable: Reservable, usuario_reserva: "Usuario", fecha_reserva: Fecha, hora_inicio_reserva: Tiempo, hora_fin_reserva: Tiempo) -> None:
+        self._id = id,
         self._reservable = reservable
         self._usuario_reserva = usuario_reserva
         self._fecha_reserva = fecha_reserva
@@ -35,6 +36,10 @@ class Reserva:
         return not (self._hora_fin_reserva <= otra_reserva._hora_inicio_reserva or self._hora_inicio_reserva >= otra_reserva._hora_fin_reserva)
 
     def es_el_mismo_usuario(self, otro_usuario: "Usuario"):
+        print("THIS, ", self._usuario_reserva)
+        print("OTHER. ", otro_usuario)
+        print("THIS, ", type(self._usuario_reserva))
+        print("OTHER. ", type(otro_usuario))
         return self._usuario_reserva == otro_usuario
 
     def esta_reservada_para_la_fecha(self, otra_fecha: Fecha):

@@ -18,7 +18,6 @@ reserva_dao = ReservaSqliteDao(DB_PATH)
 
 def crear_sistema():
     reserva_manager = ReservaManager()
-
     todas_las_salas = sala_dao.get_all_salas()
     todas_las_reservas = reserva_dao.get_all_reservas()
     reserva_manager.load_salas(todas_las_salas)
@@ -58,10 +57,12 @@ def realizar_reserva(
     tiempo_inicio = Tiempo(hora_inicio, minuto_inicio, segundo_inicio)
     tiempo_fin = Tiempo(hora_fin, minuto_fin, segundo_fin)
 
-    reserva = usuario.realizar_reserva_programada(
+    index = reserva_manager.cantidad_reservas() +1
+
+    reserva = usuario.realizar_reserva_programada(index,
         sala, fecha, tiempo_inicio, tiempo_fin)
     reserva_dao.add_reserva(
-        Reserva(sala, usuario, fecha, tiempo_inicio, tiempo_fin))
+        Reserva(index,sala, usuario, fecha, tiempo_inicio, tiempo_fin))
 
     return reserva
 
@@ -86,7 +87,7 @@ def index():
 
 
 @app.route("/reservas")
-def crear_reservas():
+def reservas():
     salas = reserva_manager.todas_las_salas
     return render_template("reservas.html", salas=salas, todas_las_reservas=reserva_manager.todas_las_reservas)
 
@@ -110,6 +111,10 @@ def crear_reserva():
             capacidad_maxima = curr_sala.capacidad_maxima
             reserva_manager_dop = realizar_reserva(usuario, sala, capacidad_maxima, ano, mes, dia,
                                                    hora_inicio, minuto_inicio, segundo_inicio, hora_fin, minuto_fin, segundo_fin)
+            
+            reserva_manager_dop.load_reservas(reserva_dao.get_all_reservas())
+            reserva_manager_dop.load_salas(sala_dao.get_all_salas())
+
             return render_template("reservas.html", salas=reserva_manager_dop.todas_las_salas, todas_las_reservas=reserva_manager_dop.todas_las_reservas)
         except Exception as ex:
             return render_template("exception.html", ex=ex)
@@ -127,20 +132,20 @@ def cancelar_reserva():
     print("Cancelando reserva...")
     if request.method == "POST":
         try:
+            global reserva_manager
+            print("reserva_manager.todas_las_reservas", reserva_manager.todas_las_reservas) 
             usuario = request.form["usuario"]
             index_s = request.form["index"]
             index = int(index_s)-1
             new_user = Usuario(usuario)
-            reserva_manager.load_reservas(reserva_dao.get_all_reservas())
+            reserva_manager.load_reservas(reserva_dao.get_all_reservas())            
             reserva = reserva_manager.get_reserva_by_id(index)
-
-            print("CANCELAR RESERVA")
-            new_user.cancelar_reserva_programada(reserva)
-
-        except ValueError as ex:
+            reserva_manager.cancelar_reserva(new_user,reserva)            
+            reserva_dao.borrar_reserva(reserva)
+        except Exception as ex:
             return render_template("exception.html", ex=ex)
-
-    return render_template("reservas.html", todas_las_reservas=todas_las_reservas)
+        #reserva_manager.load_reservas(reserva_dao.get_all_reservas())
+    return render_template("reservas.html", todas_las_reservas=reserva_manager.todas_las_reservas, salas=reserva_manager.todas_las_salas)
 
 
 @app.route("/salas", methods=["GET"])

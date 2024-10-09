@@ -14,13 +14,20 @@ class Reservable(ABC):
     
     def usuario_me_realizo_una_reserva(self):
         raise NotImplementedError
+    
+    def usuario_me_cancelo_una_reserva(self):
+        raise NotImplementedError
 
 class ReservableProgramado(Reservable):
     def __init__(self,nombre):
         self._nombre = nombre
 
     @abstractmethod
-    def usuario_me_realizo_una_reserva(self,usuario:"Usuario", fecha_reserva:Fecha, hora_inicio_reserva: Tiempo, hora_fin_reserva: Tiempo):
+    def usuario_me_realizo_una_reserva(self,index:int,usuario:"Usuario", fecha_reserva:Fecha, hora_inicio_reserva: Tiempo, hora_fin_reserva: Tiempo):
+        pass
+
+    @abstractmethod
+    def usuario_me_cancelo_una_reserva(self,reserva: "Reserva"):
         pass
 
 class ReservableSinHora(Reservable):
