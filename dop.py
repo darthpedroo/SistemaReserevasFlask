@@ -1,5 +1,8 @@
+from dao.sala.salaDaoFactory import SalaDaoFactory
+from dao.config.configurationparser import ConfigurationParser
 
-from dao.sala.salaJsonDao import SalaJsonDao
-from core.sala import Sala
 
-sala_json =SalaJsonDao()
+configuration_parser = ConfigurationParser()
+sf = SalaDaoFactory()
+
+print(sf.create_dao(configuration_parser))

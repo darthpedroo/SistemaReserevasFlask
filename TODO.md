@@ -56,6 +56,13 @@ AL BORRAR UNA SALA:
 CAPACIDAD SALA ESTA HARDCODED
     [] HACER UNA SUBQUERY
     
+DAO JSON.
+    SALAJSONDAO:
+        []Checkear que no se repitan las salovichs
+    RESERVAJSONDAO:
+        []MOSTRAR SALAS
+
+
 
 []HACER TESTS DAO
     []Setup 

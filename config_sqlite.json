@@ -1,0 +1,2 @@
+{"backend_type": "sqlite",
+"path": "./data/boiler.db"}

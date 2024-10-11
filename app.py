@@ -6,14 +6,28 @@ from core.usuario import Usuario
 from core.sala import Sala
 from core.reserva import Reserva
 
-from dao.sala.salaSQLiteDao import SalaSqliteDao
+from dao.sala.salaDaoFactory import SalaDaoFactory
+from dao.reserva.reservaDaoFactory import ReservaDaoFactory
 from dao.reserva.reservaSQLiteDAo import ReservaSqliteDao
-
+from dao.config.configurationparser import ConfigurationParser
 
 DB_PATH = "./data/boiler.db"
+JSON_PATH = "./data/data.json"
+CONFIGURATION_PARSER = ConfigurationParser()
 
-sala_dao = SalaSqliteDao(DB_PATH)
-reserva_dao = ReservaSqliteDao(DB_PATH)
+sala_dao_factory = SalaDaoFactory()
+sala_dao_json = sala_dao_factory.create_dao(CONFIGURATION_PARSER, JSON_PATH)
+
+# sala_dao_sqlite = sala_dao_factory.create_dao(CONFIGURATION_PARSER, DB_PATH)
+
+sala_dao = sala_dao_json
+
+reserva_dao_factory = ReservaDaoFactory()
+reserva_dao_json = reserva_dao_factory.create_dao(
+    CONFIGURATION_PARSER, JSON_PATH)
+# reserva_dao_sqlite = reserva_dao_factory.create_dao(CONFIGURATION_PARSER, DB_PATH)
+
+reserva_dao = reserva_dao_json
 
 
 def crear_sistema():
@@ -57,12 +71,12 @@ def realizar_reserva(
     tiempo_inicio = Tiempo(hora_inicio, minuto_inicio, segundo_inicio)
     tiempo_fin = Tiempo(hora_fin, minuto_fin, segundo_fin)
 
-    index = reserva_manager.cantidad_reservas() +1
+    index = reserva_manager.cantidad_reservas() + 1
 
     reserva = usuario.realizar_reserva_programada(index,
-        sala, fecha, tiempo_inicio, tiempo_fin)
+                                                  sala, fecha, tiempo_inicio, tiempo_fin)
     reserva_dao.add_reserva(
-        Reserva(index,sala, usuario, fecha, tiempo_inicio, tiempo_fin))
+        Reserva(index, sala, usuario, fecha, tiempo_inicio, tiempo_fin))
 
     return reserva
 
@@ -96,6 +110,7 @@ def reservas():
 def crear_reserva():
     if request.method == 'POST':
         try:
+            print("REQUEST: ", request.form)
             usuario = request.form["usuario"]
             sala = request.form["sala"]
             ano = request.form["ano"]
@@ -111,12 +126,12 @@ def crear_reserva():
             capacidad_maxima = curr_sala.capacidad_maxima
             reserva_manager_dop = realizar_reserva(usuario, sala, capacidad_maxima, ano, mes, dia,
                                                    hora_inicio, minuto_inicio, segundo_inicio, hora_fin, minuto_fin, segundo_fin)
-            
+
             reserva_manager_dop.load_reservas(reserva_dao.get_all_reservas())
             reserva_manager_dop.load_salas(sala_dao.get_all_salas())
 
             return render_template("reservas.html", salas=reserva_manager_dop.todas_las_salas, todas_las_reservas=reserva_manager_dop.todas_las_reservas)
-        except Exception as ex:
+        except ValueError as ex:
             return render_template("exception.html", ex=ex)
     salas = reserva_manager.todas_las_salas
     return render_template("crear-reserva.html", salas=salas)
@@ -133,18 +148,19 @@ def cancelar_reserva():
     if request.method == "POST":
         try:
             global reserva_manager
-            print("reserva_manager.todas_las_reservas", reserva_manager.todas_las_reservas) 
+            print("reserva_manager.todas_las_reservas",
+                  reserva_manager.todas_las_reservas)
             usuario = request.form["usuario"]
             index_s = request.form["index"]
             index = int(index_s)-1
             new_user = Usuario(usuario)
-            reserva_manager.load_reservas(reserva_dao.get_all_reservas())            
+            reserva_manager.load_reservas(reserva_dao.get_all_reservas())
             reserva = reserva_manager.get_reserva_by_id(index)
-            reserva_manager.cancelar_reserva(new_user,reserva)            
+            reserva_manager.cancelar_reserva(new_user, reserva)
             reserva_dao.borrar_reserva(reserva)
         except Exception as ex:
             return render_template("exception.html", ex=ex)
-        #reserva_manager.load_reservas(reserva_dao.get_all_reservas())
+        # reserva_manager.load_reservas(reserva_dao.get_all_reservas())
     return render_template("reservas.html", todas_las_reservas=reserva_manager.todas_las_reservas, salas=reserva_manager.todas_las_salas)
 
 
