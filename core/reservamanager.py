@@ -39,7 +39,7 @@ class ReservaManager:
         Args:
             salas (list[&quot;Sala&quot;]): _description_
         """
-
+        self._todas_las_salas = []
         for sala in salas:
             self._todas_las_salas.append(sala)
 
@@ -75,8 +75,6 @@ class ReservaManager:
 
     def __get_reserva_especifica(self, otra_reserva: Reserva):
         """Obtiene una reserva de un día especifico"""
-        print("ibot")
-        print("self._todas las rservas", self._todas_las_reservas)
         for reserva in self._todas_las_reservas:
             print("OTRA", otra_reserva)
             print("RESERVA: ", reserva)
@@ -109,6 +107,8 @@ class ReservaManager:
         """Cancela una reserva"""
 
         reserva = self.__get_reserva_especifica(reserva)
+        
+       
 
         if not reserva:
             raise NoExisteLaReserva

@@ -15,9 +15,15 @@ class ConfigurationParser:
         if not os.path.exists(self.config_path):
             raise FileNotFoundError(
                 f"No se encontró el archivo de configuración en la ruta: {self.config_path}")
+        return self.read_configuration()
+    
+    def read_configuration(self):
         with open(self.config_path, 'r') as config_file:
             return json.load(config_file)
-
+        
+    def get_path(self):
+        return self.read_configuration()['path']
+    
     def validate_configuration(self):
         if self.get_backend_type() not in self.types_of_db:
             raise ValueError(

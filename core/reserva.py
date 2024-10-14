@@ -43,8 +43,7 @@ class Reserva:
 
         Returns:
             bool: Devuelve true si es el mismo usuario
-        """        
-        
+        """                
         return self._usuario_reserva == otro_usuario
 
     def esta_reservada_para_la_fecha(self, otra_fecha: Fecha)-> bool:

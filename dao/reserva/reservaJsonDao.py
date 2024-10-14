@@ -3,6 +3,10 @@ import json
 import os
 from dao.helpers import crear_json_dao
 from core.reserva import Reserva
+from core.usuario import Usuario
+from core.sala import Sala
+from core.helpers import parse_fecha, parse_hora
+
 
 
 class ReservaJsonDao(ReservaDao):
@@ -29,8 +33,8 @@ class ReservaJsonDao(ReservaDao):
                 data = json.load(data_file)
                 reservas = []
                 for reserva in data['reservas']:
-                    reservas.append(Reserva(reserva.get("id"), reserva.get(
-                        "sala"), reserva.get("usuario"), reserva.get("fecha"), reserva.get("hora_inicio"), reserva.get("hora_fin")))
+                    reservas.append(Reserva(reserva.get("id"), Sala(reserva.get(
+                        "sala"),10), Usuario(reserva.get("usuario")), parse_fecha(reserva.get("fecha")), parse_hora(reserva.get("hora_inicio")), parse_hora(reserva.get("hora_fin"))))
                 return reservas
         except ValueError:
             os.remove(self.__json_path)
@@ -63,5 +67,12 @@ class ReservaJsonDao(ReservaDao):
         with open(self.__json_path, "w") as outfile:
             json.dump(data, outfile, indent=4)
 
-    def borrar_reserva(reserva: "Reserva"):
-        pass
+    def borrar_reserva(self, current_reserva: "Reserva"):
+        print("todas las reservas: ", self.__get_all_reservas_json()['reservas'])
+        for reserva in self.__get_all_reservas_json()['reservas']:
+            if reserva["id"] == current_reserva._id[0]:  
+                data = self.__get_all_reservas_json()
+                data['reservas'].remove(reserva)  
+                with open(self.__json_path, "w") as outfile:
+                    json.dump(data, outfile, indent=4)
+                break

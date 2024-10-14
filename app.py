@@ -11,12 +11,13 @@ from dao.reserva.reservaDaoFactory import ReservaDaoFactory
 from dao.reserva.reservaSQLiteDAo import ReservaSqliteDao
 from dao.config.configurationparser import ConfigurationParser
 
-DB_PATH = "./data/boiler.db"
-JSON_PATH = "./data/data.json"
-CONFIGURATION_PARSER = ConfigurationParser()
 
+SQLITE_CONFIG = 'config_sqlite.json'
+JSON_CONFIG = 'config_json.json'
+
+CONFIGURATION_PARSER = ConfigurationParser(SQLITE_CONFIG)
 sala_dao_factory = SalaDaoFactory()
-sala_dao_json = sala_dao_factory.create_dao(CONFIGURATION_PARSER, JSON_PATH)
+sala_dao_json = sala_dao_factory.create_dao(CONFIGURATION_PARSER, CONFIGURATION_PARSER.get_path())
 
 # sala_dao_sqlite = sala_dao_factory.create_dao(CONFIGURATION_PARSER, DB_PATH)
 
@@ -24,7 +25,7 @@ sala_dao = sala_dao_json
 
 reserva_dao_factory = ReservaDaoFactory()
 reserva_dao_json = reserva_dao_factory.create_dao(
-    CONFIGURATION_PARSER, JSON_PATH)
+    CONFIGURATION_PARSER, CONFIGURATION_PARSER.get_path())
 # reserva_dao_sqlite = reserva_dao_factory.create_dao(CONFIGURATION_PARSER, DB_PATH)
 
 reserva_dao = reserva_dao_json
@@ -102,8 +103,13 @@ def index():
 
 @app.route("/reservas")
 def reservas():
+    reserva_manager.load_reservas(reserva_dao.get_all_reservas())
+    reserva_manager.load_salas(sala_dao.get_all_salas())
+    
     salas = reserva_manager.todas_las_salas
-    return render_template("reservas.html", salas=salas, todas_las_reservas=reserva_manager.todas_las_reservas)
+    todas_las_reservas = reserva_manager.todas_las_reservas
+    
+    return render_template("reservas.html", salas=salas, todas_las_reservas=todas_las_reservas)
 
 
 @app.route("/crear-reserva", methods=["GET", "POST"])
@@ -131,7 +137,7 @@ def crear_reserva():
             reserva_manager_dop.load_salas(sala_dao.get_all_salas())
 
             return render_template("reservas.html", salas=reserva_manager_dop.todas_las_salas, todas_las_reservas=reserva_manager_dop.todas_las_reservas)
-        except ValueError as ex:
+        except Exception as ex:
             return render_template("exception.html", ex=ex)
     salas = reserva_manager.todas_las_salas
     return render_template("crear-reserva.html", salas=salas)
@@ -158,6 +164,7 @@ def cancelar_reserva():
             reserva = reserva_manager.get_reserva_by_id(index)
             reserva_manager.cancelar_reserva(new_user, reserva)
             reserva_dao.borrar_reserva(reserva)
+            reserva_manager.load_reservas(reserva_dao.get_all_reservas())
         except Exception as ex:
             return render_template("exception.html", ex=ex)
         # reserva_manager.load_reservas(reserva_dao.get_all_reservas())
