@@ -1,5 +1,8 @@
-class ReservaDao:
-    
+from abc import ABC
+
+
+class ReservaDao(ABC):
+
     def get_reserva(reserva_id: int):
         pass
 
